@@ -18,7 +18,6 @@ The checks were run after `npm ci`:
 
 - **P1** Schema is created with `sequelize.sync({ alter: true })` on startup; there are no migrations. `npm run seed` drops every table. Plan: Phase 4 in `planning/BACKEND_PLAN.md`.
 - **P1** Production (Vercel + Neon) only creates missing tables on a cold start. Any change to an existing model (new column, index) is **not** applied there: it needs a migration run against the production DB by hand.
-- **P2** Deploys are manual (`npx vercel deploy --prod` from each folder); neither project is in git, so there is no history, review or rollback by commit. Each Vercel deployment can still be promoted back in the dashboard.
 - **P2** HEIC photos can't be shrunk outside Safari, so they are uploaded as they are and five large ones can exceed Vercel's 4.5 MB request limit.
 - **P2** The mock keeps no fee history: a fee change applies to every month in mock mode. A scheduled change is only shown, not billed.
 - **P2** The mock student list bills only the previous and current month, because mock classes have almost no payment history. The backend bills every month since enrollment.

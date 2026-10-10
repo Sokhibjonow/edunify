@@ -201,14 +201,14 @@ npm run dev:real
 
 | | URL | Vercel project | Source |
 |---|---|---|---|
-| Site | https://edunify-web.vercel.app | `edunify-web` | `edunify-main/` (static Vite build, SPA rewrite in `vercel.json`) |
-| API | https://edunify-api.vercel.app/api | `edunify-api` | `D:\edunify-backend` (`api/index.ts` serves `src/expressApp.ts`) |
+| Site | https://edunify-web.vercel.app | `edunify-web` | GitHub `Sokhibjonow/edunify` (static Vite build, SPA rewrite in `vercel.json`) |
+| API | https://edunify-api.vercel.app/api | `edunify-api` | GitHub `Sokhibjonow/edunify-backend` (`api/index.ts` serves `src/expressApp.ts`) |
 
 - **Database:** Neon (Free plan, Frankfurt), connected to `edunify-api`; it sets `DATABASE_URL`. Started empty: schools sign up themselves. Missing tables are created on a cold start (`ensureSchema`, plain `sync()`), which never alters existing tables, so **a model change needs a manual migration in production** until Phase 4.
 - **Files:** Vercel Blob store `edunify-files` (public, Frankfurt) sets `BLOB_READ_WRITE_TOKEN`; homework photos and logos are stored there. Locally files still go to `uploads/`.
 - **Env on `edunify-api`:** `JWT_SECRET` (random), `APP_TIMEZONE`, `NODE_ENV`, `FRONTEND_URL=https://edunify-web.vercel.app`. On `edunify-web`: `VITE_API_URL`, `VITE_USE_MOCKS=false`.
 - **Limits:** a request body is at most 4.5 MB on Vercel; the frontend shrinks photos before upload (`src/utils/compressImage.ts`). Functions run in `fra1`.
-- **Deploy:** no git integration yet. From each folder: `npx vercel deploy --prod`.
+- **Deploy:** both Vercel projects are connected to their GitHub repos. A push to `main` deploys to production; any other branch gets a preview URL. `.env*` files are not in git: the frontend's `.env.development` / `.env.real` must be created locally (see `.env.example`).
 
 Seeded accounts use the same emails as the mock, all with password `Pass1234!`:
 
